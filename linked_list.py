@@ -8,6 +8,17 @@ class LinkedList:
 
     head: Item = None
 
+    def __init__(self):
+        self.head = None
+
+    def __len__(self):
+        count = 0
+        current = self.head
+        while current:
+            count +=1
+            current = current.next
+        return count
+
     def append_begin(self, value):
         item = LinkedList.Item(value)
         item.next = self.head
@@ -46,12 +57,16 @@ class LinkedList:
             current = current.next
 
     def remove_first(self):
-        if self.head:
+        if self.head is not None:
+            
             self.head = self.head.next
-
+        else:
+            raise ValueError('')
     def remove_last(self):
         current = self.head
-        if current and not current.next:
+        if current == None:
+            raise ValueError('')
+        elif current.next is None:
             self.head = None
             return
         while current.next.next:
@@ -59,6 +74,9 @@ class LinkedList:
         current.next = None
 
     def remove_at(self, index):
+    
+        if self.head == None:
+            raise ValueError('')
         if index == 0:
             self.remove_first()
             return
@@ -73,8 +91,11 @@ class LinkedList:
             current.next = current.next.next
 
     def remove_first_value(self, value):
+        if self.head == None:
+            raise ValueError('')
         current = self.head
         previous = None
+        tot = 0
         while current:
             if current.value == value:
                 if previous:
@@ -84,38 +105,24 @@ class LinkedList:
                 return
             previous = current
             current = current.next
+        
+        if tot == 0:
+            raise ValueError('')
 
-    def remove_last_value(self, value):
+    def remove_last_value(self, rem):
+        if self.head is None:
+            raise ValueError('')
         current = self.head
-        previous = None
-        last_occurrence = None
-        while current:
-            if current.value == value:
-                last_occurrence = current
-            previous = current
+        while current.next is not None:
+            if current.next.value == rem:
+                current.next = current.next.next
+                return
             current = current.next
-        if last_occurrence:
-            if previous:
-                previous.next = last_occurrence.next
-            else:
-                self.head = last_occurrence.next
-   
 
-my_list = LinkedList()
-my_list.append_end(2)
-my_list.append_end(3)
-my_list.append_end(4)
-my_list.append_by_index(5, 2)
-if my_list.head:
-    for value in my_list.get_items():
-        print(value)
-my_list.remove_first()
-my_list.remove_last()
-my_list.remove_at(1)
-my_list.remove_first_value(3)
-my_list.remove_last_value(4)
-print(my_list.head.value if my_list.head else "Лист пуст")
-if my_list.head:
-    for value in my_list.get_items():
-        print(my_list)
+        if self.head.value == rem:
+            self.head = self.head.next
+            return
+        else:
+            raise ValueError('')
+        
 
